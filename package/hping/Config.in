@@ -1,0 +1,9 @@
+config BR2_PACKAGE_HPING
+	bool "hping"
+	depends on BR2_USE_MMU # Needs fork/exec
+	help
+	  hping is a command-line oriented TCP/IP packet assembler/analyzer.
+
+	  This version uses a modern Autotools-based build system and supports
+	  static linking, cross-compilation, and optional Tcl scripting.
+

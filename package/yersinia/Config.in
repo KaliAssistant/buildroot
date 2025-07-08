@@ -1,0 +1,15 @@
+config BR2_PACKAGE_YERSINIA
+	bool "yersinia"
+	depends on BR2_USE_MMU # due to fork, pthreads
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	select BR2_PACKAGE_LIBPCAP
+	select BR2_PACKAGE_LIBNET
+	select BR2_PACKAGE_NCURSES
+	help
+	  Yersinia is a Layer 2 network attack tool designed to exploit
+	  some weaknesses in different Layer 2 protocols.
+
+	  It supports CDP, Cisco VLAN, DTP, STP, VTP, ISL, DHCP, HSRP, etc.
+
+	  https://github.com/KaliAssistant/yersinia
+

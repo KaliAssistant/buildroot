@@ -1,0 +1,103 @@
+diff -ruN yersinia-0.8.2-foxjack.orig/configure.ac yersinia-0.8.2-foxjack/configure.ac
+--- yersinia-0.8.2-foxjack.orig/configure.ac	2025-07-06 15:36:42.000000000 +0800
++++ yersinia-0.8.2-foxjack/configure.ac	2025-07-08 20:39:20.589112128 +0800
+@@ -118,41 +118,9 @@
+            
+ dnl Check for BSD's BPF
+ disable_bpf=no
+-have_bpf=no
++have_bpf=yes
+ AC_MSG_CHECKING(for BPF device sending support)
+-AC_TRY_RUN([
+-#include <stdio.h>
+-#include <fcntl.h>
+-#include <stdlib.h>
+-#include <errno.h>
+-
+-int 
+-main(int argc, char *argv[]) {
+-	int fd;
+-	
+-	fd = open("/dev/bpf0", O_RDONLY, 0);
+-	
+-	/* if we opened it, we're good */
+-	if (fd > 1)
+-		exit(0);
+-		
+-	/* if we got EBUSY or permission denied it exists, so we're good */
+-	if (fd < 0 && (errno == EBUSY || errno == 13))
+-		exit(0);
+-		
+-	/* else suck, no good */
+-    exit(-1);
+-}],
+-	[
+-	if test $disable_bpf = no ; then
+-	    AC_DEFINE([HAVE_BPF], [1], 
+-	              [Do we have BPF device support?])
+-		AC_MSG_RESULT(yes)
+-		have_bpf=yes
+-	else
+-		AC_MSG_RESULT(no)
+-	fi
+-	])
++AC_MSG_RESULT([assumed no (cross compiling)])
+ 
+ dnl
+ dnl
+@@ -232,32 +200,7 @@
+ dnl fi
+ 
+ AC_MSG_CHECKING(if libnet is at least version 1.1.2)
+-AC_TRY_RUN([
+-#include <stdlib.h>
+-#include <stdio.h>
+-#include <libnet.h>
+-#define HOPE_MAJOR  1
+-#define HOPE_MEDIUM 1
+-#define HOPE_MINOR  2
+-int main(void)
+-{
+-  unsigned int major,medium,minor,current, desired;
+-  desired = HOPE_MAJOR*10000 + HOPE_MEDIUM*100 + HOPE_MINOR;
+-  sscanf( LIBNET_VERSION, "%d.%d.%d", &major, &medium, &minor);
+-  current = major*10000 + medium*100 + minor;
+-  if ( current >= desired )
+-     exit(0);
+-  exit(1);
+-}],
+-[AC_MSG_RESULT(yes); have_libnet=yes],
+-[AC_MSG_RESULT(no); have_libnet=no],
+-[AC_MSG_RESULT(no); have_libnet=no])
+-
+-if test $have_libnet = no; then
+-  AC_MSG_WARN(Ouch!! At least Libnet library version 1.1.2 is needed in order to compile Yersinia!!...)
+-  AC_MSG_ERROR(...i'm sure you'll take the right decision.)
+-fi
+-
++AC_MSG_RESULT([assumed yes (cross compiling)])
+ 
+ 
+ dnl
+@@ -830,19 +773,8 @@
+ AH_TEMPLATE([HAVE_GTK], [gtk interface support])
+ AM_CONDITIONAL(HAVE_GTK, test $use_gtk = yes)
+ 
+-if test $use_gtk = yes; then
+-     AC_DEFINE(HAVE_GTK)
+-     pkg_modules="gtk+-2.0 >= 2.6.0"
+-     PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
+-     AC_SUBST(PACKAGE_CFLAGS)
+-     AC_SUBST(PACKAGE_LIBS)
+-     GETTEXT_PACKAGE=yersinia
+-     AC_SUBST(GETTEXT_PACKAGE)
+-     AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
+-dnl Add the languages which your application supports here.
+-     ALL_LINGUAS=""
+-     AM_GLIB_GNU_GETTEXT
+-fi
++use_gtk=no
++AM_CONDITIONAL(HAVE_GTK, false)
+ 
+ AH_TEMPLATE([INFO_KERN], "Kernel name")
+ AH_TEMPLATE([INFO_KERN_VER], "Kernel version")
