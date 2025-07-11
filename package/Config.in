@@ -526,6 +526,7 @@ endmenu
 	source "package/gpm/Config.in"
 	source "package/gpsd/Config.in"
 	source "package/gptfdisk/Config.in"
+	source "package/gt/Config.in"
 	source "package/gvfs/Config.in"
 	source "package/hddtemp/Config.in"
 	source "package/hdparm/Config.in"
