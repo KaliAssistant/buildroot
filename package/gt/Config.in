@@ -1,0 +1,17 @@
+config BR2_PACKAGE_GT
+    bool "gt (USB gadget config tool)"
+    select BR2_PACKAGE_LIBUSBGX
+    select BR2_PACKAGE_LIBCONFIG
+    help
+      USB gadget configuration tool using configfs.
+      (http://github.com/linux-usb-gadgets/gt)
+
+if BR2_PACKAGE_GT
+
+config BR2_PACKAGE_GT_GADGETD
+    bool "Enable gadgetd support"
+    help
+      Enable building gt with gadgetd (glib/gio) support.
+
+endif
+
