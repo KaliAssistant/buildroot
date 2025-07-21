@@ -1,4 +1,4 @@
-config BR2_PACKAGE_OHMYBASH
+config BR2_PACKAGE_OH_MY_BASH
     bool "oh-my-bash"
     depends on BR2_PACKAGE_BASH
     help
