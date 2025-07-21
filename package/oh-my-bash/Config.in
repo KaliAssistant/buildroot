@@ -1,0 +1,6 @@
+config BR2_PACKAGE_OHMYBASH
+    bool "oh-my-bash"
+    depends on BR2_PACKAGE_BASH
+    help
+      Install Oh My Bash into /root/.oh-my-bash like the official install script.
+
