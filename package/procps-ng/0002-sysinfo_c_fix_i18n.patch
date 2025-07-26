@@ -1,0 +1,43 @@
+diff -ruN procps-ng-4.0.5.orig/library/sysinfo.c procps-ng-4.0.5/library/sysinfo.c
+--- procps-ng-4.0.5.orig/library/sysinfo.c	2025-07-26 20:58:04.647146070 +0800
++++ procps-ng-4.0.5/library/sysinfo.c	2025-07-26 20:58:15.315029229 +0800
+@@ -37,6 +37,14 @@
+ #include "misc.h"
+ #include "procps-private.h"
+ 
++#ifdef __UCLIBC__
++#define locale_t int
++#define newlocale(a, b, c) (0)
++#define freelocale(x) ((void)0)
++#define uselocale(x) ((void)0)
++#define LC_NUMERIC_MASK LC_NUMERIC
++#endif
++
+ 
+ #define LOADAVG_FILE "/proc/loadavg"
+ 
+diff -ruN procps-ng-4.0.5.orig/library/uptime.c procps-ng-4.0.5/library/uptime.c
+--- procps-ng-4.0.5.orig/library/uptime.c	2025-07-26 21:02:47.231982205 +0800
++++ procps-ng-4.0.5/library/uptime.c	2025-07-26 21:04:40.406699428 +0800
+@@ -44,12 +44,21 @@
+ #include "procps-private.h"
+ #include "pids.h"
+ 
++#ifdef __UCLIBC__
++#define locale_t int
++#define newlocale(a, b, c) (0)
++#define freelocale(x) ((void)0)
++#define uselocale(x) ((void)0)
++#define LC_NUMERIC_MASK LC_NUMERIC
++#endif
++
+ #define UPTIME_FILE "/proc/uptime"
+ 
+ #define UPTIME_BUFLEN 256
+ static __thread char upbuf[UPTIME_BUFLEN];
+ static __thread char shortbuf[UPTIME_BUFLEN];
+ 
++
+ /*
+  * users:
+  *
